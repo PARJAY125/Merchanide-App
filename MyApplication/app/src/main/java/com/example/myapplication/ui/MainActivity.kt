@@ -27,9 +27,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
+
         checkingPermission()
-//        storagePermission()
-//        locationPermission()
 
         AM_btn_record_gps.setOnClickListener {
             getLocation()
@@ -111,36 +110,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun storagePermission() {
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
-            == PackageManager.PERMISSION_GRANTED) {
-            // Permission is already granted
-            // Perform your desired action here
-            // ...
-        } else {
-            // Permission is not granted, request it
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE),
-                STORAGE_PERMISSION_CODE
-            )
-        }
-    }
-
-    private fun locationPermission() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED &&
-            ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
-            != PackageManager.PERMISSION_GRANTED) {
-
-            ActivityCompat.requestPermissions(this,
-                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION),
-                0)
-            return
-        }
-    }
-
     private fun getLocation() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (ActivityCompat.checkSelfPermission(
@@ -153,27 +122,8 @@ class MainActivity : AppCompatActivity() {
         ) {
             return
         }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0f, locationListener)
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0f, locationListener)
     }
-
-//    override fun onRequestPermissionsResult(
-//        requestCode: Int,
-//        permissions: Array<String>,
-//        grantResults: IntArray
-//    ) {
-//        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-//        if (requestCode == STORAGE_PERMISSION_CODE) {
-//            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // Storage permission is granted
-//                // Perform your desired action here
-//                // ...
-//            } else {
-//                // Storage permission is denied
-//                // Handle the denial of permission here
-//                // ...
-//            }
-//        }
-//    }
 
     private val locationListener: LocationListener = object : LocationListener {
         override fun onLocationChanged(location: Location) {
@@ -181,10 +131,7 @@ class MainActivity : AppCompatActivity() {
             val latitude = location.latitude
             val longitude = location.longitude
 
-            // Cek apakah lokasi berada di Bali
-            if (isLocationInBali(latitude, longitude))
-                AM_tv_gps_location.text = "Lokasi :  ($latitude - $longitude)"
-            else AM_tv_gps_location.text = "Lokasi : anda tidak berada di Bali"
+            AM_tv_gps_location.text = "Lokasi :  ($latitude | $longitude)"
 
             // Hentikan pembaruan lokasi setelah mendapatkan hasil pertama
             locationManager.removeUpdates(this)
@@ -195,14 +142,5 @@ class MainActivity : AppCompatActivity() {
         override fun onProviderEnabled(provider: String) {}
 
         override fun onProviderDisabled(provider: String) {}
-    }
-
-    private fun isLocationInBali(latitude: Double, longitude: Double): Boolean {
-        val baliSouth = -8.9
-        val baliNorth = -8.1
-        val baliWest = 114.0
-        val baliEast = 115.9
-
-        return latitude in baliSouth..baliNorth && longitude >= baliWest && longitude <= baliEast
     }
 }

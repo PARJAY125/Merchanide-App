@@ -54,9 +54,18 @@ class DemoKonversi : AppCompatActivity() {
     }
 
     private fun exportToCsv() {
+        // Create CSV file after populating the rows list
+        val name = "Parjay"
+        val fileName = "${name}_${SimpleDateFormat("yyyy_MM_dd", Locale.getDefault()).format(Date())}"
+        val dir = File(Environment.getExternalStorageDirectory(), "MD_${fileName}")
+        if (!dir.exists()) dir.mkdirs()
+        val file = File(dir, "Laporan_${fileName}.csv")
+
         val header = arrayOf("id", "outlet_name", "transport_distance", "image_before", "image_after", "is_stock_full", "list_goods_ids", "start_time", "end_time")
+
         val rows = mutableListOf<Array<String?>>()
         viewModel.allReports.observe(this) { reports ->
+            rows.clear() // Clear previous data
             for (report in reports) {
                 val row = arrayOf(
                     report.id.toString(),
@@ -71,26 +80,16 @@ class DemoKonversi : AppCompatActivity() {
                 )
                 rows.add(row)
             }
-        }
 
-        val name = "Parjay"
-        val fileName = "${name}_${SimpleDateFormat("yyyy_MM_dd", Locale.getDefault()).format(Date())}"
-        val dir = File(Environment.getExternalStorageDirectory(), "MD_${fileName}")
-        if (!dir.exists()) {
-            val isCreated = dir.mkdirs()
-//            Toast.makeText(this, "Directory created: $isCreated", Toast.LENGTH_SHORT).show()
-        }
-
-        val file = File(dir, "Laporan_${fileName}.csv")
-        try {
-            val csvWriter = CSVWriter(FileWriter(file))
-            csvWriter.writeNext(header)
-            for (row in rows) csvWriter.writeNext(row)
-            csvWriter.close()
-//            Toast.makeText(this, "File created at path: ${file.absolutePath}", Toast.LENGTH_SHORT).show()
-            Toast.makeText(this, "sucess", Toast.LENGTH_SHORT).show()
-        } catch (e: Exception) {
-            Toast.makeText(this, "Error creating file", Toast.LENGTH_SHORT).show()
+            try {
+                val csvWriter = CSVWriter(FileWriter(file))
+                csvWriter.writeNext(header)
+                for (row in rows) csvWriter.writeNext(row)
+                csvWriter.close()
+                Toast.makeText(this, "file berhasil dibuat", Toast.LENGTH_SHORT).show()
+            } catch (e: Exception) {
+                Toast.makeText(this, "file gagal dibuat", Toast.LENGTH_SHORT).show()
+            }
         }
     }
 }

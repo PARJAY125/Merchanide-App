@@ -23,6 +23,7 @@ import java.util.*
 
 class DemoCamera : AppCompatActivity() {
 
+    // lets say i just make a change in this line
     private val CAMERA_REQUEST_CODE = 100
     private val PERMISSION_REQUEST_CODE = 200
     private lateinit var imageFile: File
