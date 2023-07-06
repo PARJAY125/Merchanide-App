@@ -30,10 +30,6 @@ class MainActivity : AppCompatActivity() {
 
         checkingPermission()
 
-        AM_btn_record_gps.setOnClickListener {
-            getLocation()
-        }
-
         AM_btn_to_am2.setOnClickListener {
             startActivity(Intent(this, ReportDetail::class.java))
         }
@@ -42,12 +38,12 @@ class MainActivity : AppCompatActivity() {
             startActivity(Intent(this, ReportList::class.java))
         }
 
-        AM_btn_to_am4.setOnClickListener {
-            startActivity(Intent(this, DemoCamera::class.java))
+        AM_btn_to_data_barang.setOnClickListener {
+            startActivity(Intent(this, DataBarang::class.java))
         }
 
-        AM_btn_to_am5.setOnClickListener {
-            startActivity(Intent(this, DemoKonversi::class.java))
+        AM_btn_to_data_outlet.setOnClickListener {
+            startActivity(Intent(this, DataOutlet::class.java))
         }
     }
 
@@ -75,72 +71,5 @@ class MainActivity : AppCompatActivity() {
             // Perform your desired action here
             // ...
         }
-    }
-
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        when (requestCode) {
-            LOCATION_PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Location permission is granted
-                    // Perform your desired action here
-                    // ...
-                } else {
-                    // Location permission is denied
-                    // Handle the case when the permission is denied
-                    // ...
-                }
-            }
-
-            STORAGE_PERMISSION_CODE -> {
-                if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    // Storage permission is granted
-                    // Perform your desired action here
-                    // ...
-                } else {
-                    // Storage permission is denied
-                    // Handle the case when the permission is denied
-                    // ...
-                }
-            }
-        }
-    }
-
-    private fun getLocation() {
-        locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
-        if (ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_COARSE_LOCATION
-            ) != PackageManager.PERMISSION_GRANTED
-        ) {
-            return
-        }
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 0f, locationListener)
-    }
-
-    private val locationListener: LocationListener = object : LocationListener {
-        override fun onLocationChanged(location: Location) {
-            // Mendapatkan lokasi terbaru
-            val latitude = location.latitude
-            val longitude = location.longitude
-
-            AM_tv_gps_location.text = "Lokasi :  ($latitude | $longitude)"
-
-            // Hentikan pembaruan lokasi setelah mendapatkan hasil pertama
-            locationManager.removeUpdates(this)
-        }
-
-        override fun onStatusChanged(provider: String, status: Int, extras: Bundle) {}
-
-        override fun onProviderEnabled(provider: String) {}
-
-        override fun onProviderDisabled(provider: String) {}
     }
 }

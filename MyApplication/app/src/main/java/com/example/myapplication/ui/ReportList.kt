@@ -55,10 +55,6 @@ class ReportList : AppCompatActivity() {
             startActivity(Intent(this, ReportDetail::class.java))
         }
 
-        rl_fab_add_outlet.setOnClickListener{
-
-        }
-
         rl_tv_refresh.setOnClickListener {
             finish()
             startActivity(intent)

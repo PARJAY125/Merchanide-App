@@ -12,6 +12,7 @@ import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.webkit.*
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
@@ -31,6 +32,7 @@ import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
+import androidx.lifecycle.Observer
 
 class ReportDetail : AppCompatActivity() {
 
@@ -53,38 +55,41 @@ class ReportDetail : AppCompatActivity() {
         setContentView(R.layout.report_detail)
 
         // todo : check if intent extra available
-        checkIntentExtra()
-        initUi()
+//        checkIntentExtra()
         initDatabase()
+//        TODO : spinner populate database rd_spn_outlet_name
+        populateSpinner()
         onClickFunction()
     }
 
-    private fun checkIntentExtra() {
-        reportId = intent.getIntExtra("reportId", -1)
-        if(reportId != -1 ) rd_tiet_outlet_name.hint = "outlet id : $reportId"
-    }
+    // TODO : solve this intent extra
+//    private fun checkIntentExtra() {
+//        reportId = intent.getIntExtra("reportId", -1)
+//        if(reportId != -1 ) rd_tiet_outlet_name.hint = "outlet id : $reportId"
+//    }
 
     private fun initDatabase() {
         viewModel = InitDatabase.initDatabase(this)
     }
 
-    private fun onClickFunction() {
-        rd_btn_set_gps_location.setOnClickListener {
-           GpsTools.setGPSLocation(rd_wv_gps_location, rd_tv_gps_location)
+    private fun populateSpinner() {
+        viewModel.allOutlets.observe(this) { goodsList ->
+            // Update the adapter with the new data
+            val adapter =
+                ArrayAdapter(this, android.R.layout.simple_spinner_item, goodsList.map { it.outletName })
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+            rd_spn_outlet_name.adapter = adapter
         }
+    }
+    private fun onClickFunction() {
 
         rd_iv_before.setOnClickListener{
             imageMarker = 1
             takeImage()
         }
 
-        rd_iv_after.setOnClickListener{
-            imageMarker = 2
-            takeImage()
-        }
-
         rd_iv_transport.setOnClickListener{
-            imageMarker = 3
+            imageMarker = 2
             takeImage()
         }
 
@@ -93,18 +98,13 @@ class ReportDetail : AppCompatActivity() {
         }
     }
 
-    private fun initUi() {
-        GpsTools.setGps(rd_wv_gps_location)
-        GpsTools.gpsSetting(rd_wv_gps_location)
-    }
-
     private fun saveReportData() {
         // todo : change this dummy data to real user input data
         val dummyGoodsListId = listOf(1, 2, 3)
 
         val report = Report(
             0,
-            rd_tiet_outlet_name.text.toString(),
+            "Dummy Outlet Name", // TODO : this line need fixing
             imageTransport,
             imageAfter,
             imageBefore,
@@ -198,11 +198,10 @@ class ReportDetail : AppCompatActivity() {
                 val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, Uri.fromFile(imageFile))
                 when (imageMarker) {
                     1 -> rd_iv_before.setImageBitmap(bitmap)
-                    2 -> rd_iv_after.setImageBitmap(bitmap)
-                    3 -> rd_iv_transport.setImageBitmap(bitmap)
+                    2 -> rd_iv_transport.setImageBitmap(bitmap)
                 }
-                // else imageTransport
-            } catch (e: IOException) {
+            }
+            catch (e: IOException) {
                 e.printStackTrace()
             }
         }

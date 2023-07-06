@@ -9,66 +9,58 @@
         android:id="@+id/AM_tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Title"
+        android:text="Aplikasi Pelaporan Merchandiser"
         android:textSize="24sp"
-        android:gravity="center" />
+        android:gravity="center"
+        android:layout_marginTop="16dp"/>
 
     <TextView
-        android:id="@+id/AM_tv_gps_location"
+        android:id="@+id/AM_tv_md_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Lokasi : "
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+        android:text=""
+        android:textSize="20sp"
+        android:gravity="center"
+        android:layout_marginTop="16dp"/>
 
-    <Button
-        android:id="@+id/AM_btn_record_gps"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Rekam Jejak GPS Saya"
-        android:layout_marginBottom="16dp"/>
-
-    <TextView
-        android:id="@+id/AM_tv_camera"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Ambil Foto"
-        android:textSize="18sp"
-        android:layout_marginBottom="8dp" />
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:gravity="center"
+        android:layout_gravity="center">
 
-    <ImageView
-        android:id="@+id/AM_iv_foto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"/>
+        <Button
+            android:id="@+id/AM_btn_record_gps"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Setel Ulang Nama Anda"
+            />
 
-    <Button
-        android:id="@+id/AM_btn_take_photo"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Ambil Foto" />
+        <Button
+            android:id="@+id/AM_btn_to_am2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Laporan Baru" />
 
-    <Button
-        android:id="@+id/AM_btn_to_am2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="To activity 2" />
+        <Button
+            android:id="@+id/AM_btn_to_am3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Daftar Laporan Hari ini" />
 
-    <Button
-        android:id="@+id/AM_btn_to_am3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="To activity 3" />
+        <Button
+            android:id="@+id/AM_btn_to_data_outlet"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data Outlet" />
 
-    <Button
-        android:id="@+id/AM_btn_to_am4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Picture Demo" />
+        <Button
+            android:id="@+id/AM_btn_to_data_barang"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Data Barang" />
 
-    <Button
-        android:id="@+id/AM_btn_to_am5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Konversi Demo" />
+    </LinearLayout>
+
 </LinearLayout>
