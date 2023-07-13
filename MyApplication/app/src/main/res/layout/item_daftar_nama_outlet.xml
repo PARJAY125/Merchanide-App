@@ -12,7 +12,8 @@
         android:backgroundTint="#aaa">
 
         <TextView
-            android:layout_width="wrap_content"
+            android:id="@+id/IDNO_tv_nama_outlet"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="16dp"
             android:text="Nama Outlet"/>

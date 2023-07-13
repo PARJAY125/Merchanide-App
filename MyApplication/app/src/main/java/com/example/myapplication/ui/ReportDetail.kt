@@ -54,10 +54,9 @@ class ReportDetail : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.report_detail)
 
-        // todo : check if intent extra available
-//        checkIntentExtra()
+        // todo : checkIntentExtra()
         initDatabase()
-//        TODO : spinner populate database rd_spn_outlet_name
+        // TODO : spinner populate database rd_spn_outlet_name
         populateSpinner()
         onClickFunction()
     }
@@ -74,7 +73,6 @@ class ReportDetail : AppCompatActivity() {
 
     private fun populateSpinner() {
         viewModel.allOutlets.observe(this) { goodsList ->
-            // Update the adapter with the new data
             val adapter =
                 ArrayAdapter(this, android.R.layout.simple_spinner_item, goodsList.map { it.outletName })
             adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
@@ -98,6 +96,7 @@ class ReportDetail : AppCompatActivity() {
         }
     }
 
+    // TODO : rubah
     private fun saveReportData() {
         // todo : change this dummy data to real user input data
         val dummyGoodsListId = listOf(1, 2, 3)

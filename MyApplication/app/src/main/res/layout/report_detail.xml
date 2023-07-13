@@ -49,10 +49,12 @@
             android:textSize="18sp"
             android:layout_marginTop="16dp"/>
 
+        <!-- TODO : FIX DESIGN -->
         <ImageView
             android:id="@+id/rd_iv_transport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+
             android:background="@drawable/ic_baseline_add_24"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
@@ -66,6 +68,7 @@
             android:textSize="18sp"
             android:layout_marginTop="16dp" />
 
+        <!-- TODO : FIX DESIGN -->
         <ImageView
             android:id="@+id/rd_iv_before"
             android:layout_width="match_parent"
@@ -90,7 +93,8 @@
             <ImageView
                 android:id="@+id/rd_iv_add_barang"
                 android:layout_width="32dp"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
                 android:background="@drawable/ic_baseline_add_24"
                 android:scaleType="fitXY"
                 android:adjustViewBounds="true" />
@@ -98,55 +102,11 @@
         </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/RD_rv_selled_product"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:listitem="@layout/item_report_goods_list"
             android:layout_marginTop="8dp"/>
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/rd_til_goods2"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Barang 1"-->
-<!--            android:layout_marginTop="16dp">-->
-
-<!--            &lt;!&ndash;this is the actual edit text which takes the input&ndash;&gt;-->
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/rd_tiet_goods2"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/rd_til_goods3"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Barang 2"-->
-<!--            android:layout_marginTop="8dp">-->
-
-<!--            &lt;!&ndash;this is the actual edit text which takes the input&ndash;&gt;-->
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/rd_tiet_goods3"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
-
-<!--        <com.google.android.material.textfield.TextInputLayout-->
-<!--            android:id="@+id/rd_til_goods4"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:hint="Barang 3"-->
-<!--            android:layout_marginTop="8dp">-->
-
-<!--            &lt;!&ndash;this is the actual edit text which takes the input&ndash;&gt;-->
-<!--            <com.google.android.material.textfield.TextInputEditText-->
-<!--                android:id="@+id/rd_tiet_goods4"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content" />-->
-
-<!--        </com.google.android.material.textfield.TextInputLayout>-->
 
         <Button
             android:id="@+id/rd_btn_submit_report"

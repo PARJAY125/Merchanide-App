@@ -9,16 +9,19 @@ import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.example.myapplication.GlobalVariable
 import com.example.myapplication.R
+import com.example.myapplication.database.Outlet
+import com.example.myapplication.dialog.DialogOneInput
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : AppCompatActivity(), DialogOneInput.DialogListener {
 
-    private val LOCATION_PERMISSION_CODE = 1
-    private val STORAGE_PERMISSION_CODE = 2
+    private val LOCATION_AND_STORAGE_PERMISSION_CODE = 1
 
     private lateinit var locationManager: LocationManager
 
@@ -29,6 +32,15 @@ class MainActivity : AppCompatActivity() {
         locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
 
         checkingPermission()
+
+        val globalVariable = applicationContext as GlobalVariable
+        if (globalVariable.namaMerchandiser != "") AM_tv_md_name.text = globalVariable.namaMerchandiser
+        else AM_tv_md_name.text = "Nama Anda Belum Terdaftar"
+
+        AM_btn_rename_merchandise.setOnClickListener {
+            val dialogFragment = DialogOneInput()
+            dialogFragment.show(supportFragmentManager, "ChangeMDName")
+        }
 
         AM_btn_to_am2.setOnClickListener {
             startActivity(Intent(this, ReportDetail::class.java))
@@ -64,12 +76,17 @@ class MainActivity : AppCompatActivity() {
             ActivityCompat.requestPermissions(
                 this,
                 permissionsToRequest.toTypedArray(),
-                LOCATION_PERMISSION_CODE // Use a unique request code for each permission
+                LOCATION_AND_STORAGE_PERMISSION_CODE // Use a unique request code for each permission
             )
         } else {
             // Permissions are already granted
             // Perform your desired action here
             // ...
         }
+    }
+
+    override fun onDialogResult(newMDName: String) {
+        Toast.makeText(this, "nama anda $newMDName", Toast.LENGTH_SHORT).show()
+        AM_tv_md_name.text = newMDName
     }
 }

@@ -3,26 +3,24 @@ package com.example.myapplication.ui
 import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Environment
 import android.widget.TableRow
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
-import androidx.lifecycle.ViewModelProvider
-import androidx.room.Room
 import com.example.myapplication.R
 import com.example.myapplication.database.Report
-import com.example.myapplication.database.RoomDatabase
-import com.example.myapplication.repository.MyRepository
 import com.example.myapplication.util.InitDatabase
 import com.example.myapplication.viewmodel.MyViewModel
-import com.example.myapplication.viewmodel.MyViewModelFactory
 import com.opencsv.CSVWriter
-import kotlinx.android.synthetic.main.report_list.*
+import kotlinx.android.synthetic.main.report_list.rl_btn_add_report
+import kotlinx.android.synthetic.main.report_list.rl_btn_print_report
+import kotlinx.android.synthetic.main.report_list.rl_tl_report_tableLayout
+import kotlinx.android.synthetic.main.report_list.rl_tv_refresh
 import java.io.File
 import java.io.FileWriter
 import java.text.SimpleDateFormat
@@ -100,7 +98,7 @@ class ReportList : AppCompatActivity() {
 
                 // handle row click event here
                 tableRow.setOnClickListener {
-                    // todo (optional) : procedure should -> report outlet name -> report id
+                    // TODO (optional) : procedure should -> report outlet name -> report id
                     // i dont like this but this is work
                     // Do something with the report data, such as show it in a details view
                     val intent = Intent(this, ReportDetail::class.java)
