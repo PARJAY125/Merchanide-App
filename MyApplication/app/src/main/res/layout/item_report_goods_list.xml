@@ -4,7 +4,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/irgl_til"
+        android:id="@+id/IRGL_til"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Barang 1"
@@ -12,7 +12,7 @@
 
         <!--this is the actual edit text which takes the input-->
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/irgl_til_tiet"
+            android:id="@+id/IRGL_til_tiet_product_name"
             android:inputType="number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

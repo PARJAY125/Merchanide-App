@@ -12,21 +12,16 @@ data class Report(
     var id: Int = 0,
     @ColumnInfo(name = "outlet_name")
     var outletName: String,
-    @ColumnInfo(name = "transport_distance")
-    var transportDistance: String?,
 
     // image String URI
-    @ColumnInfo(name = "image_before")
-    var imageBefore: String?,
-    @ColumnInfo(name = "image_after")
-    var imageAfter: String?,
+    @ColumnInfo(name = "transport_distance")
+    var transportDistance: String?,
+    @ColumnInfo(name = "image_pap_outlet")
+    var imagePapOutlet: String?,
 
-    @ColumnInfo(name = "is_stock_full")
-    var isStockFull: Boolean,
-    @ColumnInfo(name = "list_good_ids")
-    var listGoodsIds: List<Int>,
+    @ColumnInfo(name = "list_goods_sold")
+    var listGoodsSold: List<Int>,
 
-    // todo : make a start time and end time
     @ColumnInfo(name = "start_time")
     val startTime: String,
     @ColumnInfo(name = "end_time")

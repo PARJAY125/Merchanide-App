@@ -129,11 +129,9 @@ class ReportList : AppCompatActivity() {
                 val row = arrayOf(
                     report.id.toString(),
                     report.outletName,
-                    report.transportDistance.toString(),
-                    report.imageBefore,
-                    report.imageAfter,
-                    report.isStockFull.toString(),
-                    report.listGoodsIds.joinToString(","),
+                    report.transportDistance,
+                    report.imagePapOutlet,
+                    report.listGoodsSold.joinToString(","),
                     report.startTime,
                     report.endTime
                 )

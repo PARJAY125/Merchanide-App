@@ -1,41 +1,45 @@
 package com.example.myapplication.ui
 
 import android.Manifest
-import android.app.Activity
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
-import android.webkit.*
+import android.view.View
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.content.FileProvider
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.BuildConfig
 import com.example.myapplication.R
-import com.example.myapplication.database.*
+import com.example.myapplication.database.Report
+import com.example.myapplication.recViewAdapter.DataSoldProductAdapter
 import com.example.myapplication.util.GenerateRandomString
-import com.example.myapplication.util.GpsTools
 import com.example.myapplication.util.InitDatabase
 import com.example.myapplication.util.TimeTools
 import com.example.myapplication.viewmodel.MyViewModel
-import kotlinx.android.synthetic.main.activity_demo_camera.*
-import kotlinx.android.synthetic.main.report_detail.*
+import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.report_detail.RD_rv_selled_product
+import kotlinx.android.synthetic.main.report_detail.rd_btn_submit_report
+import kotlinx.android.synthetic.main.report_detail.rd_iv_pap_outlet
+import kotlinx.android.synthetic.main.report_detail.rd_iv_transport
+import kotlinx.android.synthetic.main.report_detail.rd_spn_outlet_name
 import java.io.File
 import java.io.IOException
 import java.text.SimpleDateFormat
-import java.util.*
-import androidx.lifecycle.Observer
+import java.util.Date
+import java.util.Locale
 
 class ReportDetail : AppCompatActivity() {
 
+    private lateinit var dataSoldProductAdapter: DataSoldProductAdapter
     private lateinit var viewModel: MyViewModel
     private var reportId : Int? = null
 
@@ -46,19 +50,32 @@ class ReportDetail : AppCompatActivity() {
     private lateinit var imageFile: File
 
     private var imageMarker = 0
-    private lateinit var imageAfter : String
-    private lateinit var imageBefore : String
+    private lateinit var imagePapOutlet : String
     private lateinit var imageTransport : String
 
+    lateinit var selectedOutlet : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.report_detail)
 
-        // todo : checkIntentExtra()
+        // TODO : checkIntentExtra()
         initDatabase()
-        // TODO : spinner populate database rd_spn_outlet_name
         populateSpinner()
         onClickFunction()
+
+        rd_spn_outlet_name.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                selectedOutlet = parent?.getItemAtPosition(position).toString()
+                // Use the selected item as needed
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                // Handle the case where nothing is selected, if needed
+            }
+        }
+
+        // TODO : recycler view integration
+        setUpRecView()
     }
 
     // TODO : solve this intent extra
@@ -66,6 +83,18 @@ class ReportDetail : AppCompatActivity() {
 //        reportId = intent.getIntExtra("reportId", -1)
 //        if(reportId != -1 ) rd_tiet_outlet_name.hint = "outlet id : $reportId"
 //    }
+
+    private fun setUpRecView() {
+        RD_rv_selled_product.layoutManager = LinearLayoutManager(this)
+
+        dataSoldProductAdapter = DataSoldProductAdapter(emptyList())
+        RD_rv_selled_product.adapter = dataSoldProductAdapter
+
+        // get data from database
+        viewModel.allGoods.observe(this) { dataList ->
+            dataSoldProductAdapter.setData(dataList)
+        }
+    }
 
     private fun initDatabase() {
         viewModel = InitDatabase.initDatabase(this)
@@ -81,7 +110,7 @@ class ReportDetail : AppCompatActivity() {
     }
     private fun onClickFunction() {
 
-        rd_iv_before.setOnClickListener{
+        rd_iv_pap_outlet.setOnClickListener{
             imageMarker = 1
             takeImage()
         }
@@ -98,17 +127,26 @@ class ReportDetail : AppCompatActivity() {
 
     // TODO : rubah
     private fun saveReportData() {
-        // todo : change this dummy data to real user input data
-        val dummyGoodsListId = listOf(1, 2, 3)
+        // TODO : recycler view retrive data
+        val extractedValues = mutableListOf<Int>()
 
+        val adapter = RD_rv_selled_product.adapter as DataSoldProductAdapter
+
+        for (i in 0 until adapter.itemCount) {
+            val viewHolder = RD_rv_selled_product.findViewHolderForAdapterPosition(i) as DataSoldProductAdapter.MyViewHolder
+            val editTextValue = viewHolder.itemView.findViewById<TextInputEditText>(R.id.IRGL_til_tiet_product_name)
+            val value = editTextValue.text.toString().toInt()
+
+            extractedValues.add(value)
+        }
+
+        // TODO : benerin
         val report = Report(
             0,
-            "Dummy Outlet Name", // TODO : this line need fixing
+            selectedOutlet,
             imageTransport,
-            imageAfter,
-            imageBefore,
-            true,
-            dummyGoodsListId,
+            imagePapOutlet,
+            extractedValues,          // TODO : datanya dari recycler view
             startTime,
             TimeTools.getCurrentTime()
         )
@@ -151,6 +189,7 @@ class ReportDetail : AppCompatActivity() {
 
     // 3. simpen gambarnya di folder
     private fun createImageFile(): File {
+        // TODO : rubah nama jadi nama merchandisernya
         val name = "Parjay"
         val fileName = "Outlet_${name}_${SimpleDateFormat("yyyy_MM_dd", Locale.getDefault()).format(Date())}"
         val dir = File(Environment.getExternalStorageDirectory(), "MD_$fileName")
@@ -160,8 +199,7 @@ class ReportDetail : AppCompatActivity() {
         }
 
         when (imageMarker) {
-            1 -> imageAfter = dir.toString()
-            2 -> imageBefore = dir.toString()
+            1 -> imagePapOutlet = dir.toString()
             else -> imageTransport = dir.toString()
         }
 
@@ -173,8 +211,6 @@ class ReportDetail : AppCompatActivity() {
             throw Exception()
         }
     }
-
-    // 4. simpen alamat gambar nya di room database
 
     override fun onRequestPermissionsResult(
         requestCode: Int,
@@ -189,14 +225,14 @@ class ReportDetail : AppCompatActivity() {
         }
     }
 
-    // 5. tampilkan gambarnya
+    // 4. tampilkan gambarnya
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == CAMERA_REQUEST_CODE && resultCode == RESULT_OK) {
             try {
                 val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, Uri.fromFile(imageFile))
                 when (imageMarker) {
-                    1 -> rd_iv_before.setImageBitmap(bitmap)
+                    1 -> rd_iv_pap_outlet.setImageBitmap(bitmap)
                     2 -> rd_iv_transport.setImageBitmap(bitmap)
                 }
             }
