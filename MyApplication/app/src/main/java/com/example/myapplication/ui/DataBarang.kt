@@ -1,19 +1,20 @@
 package com.example.myapplication.ui
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.myapplication.R
-import com.example.myapplication.dialog.DialogOneInput
+import com.example.myapplication.database.Goods
+import com.example.myapplication.dialog.DialogTwoInput
 import com.example.myapplication.recViewAdapter.DataBarangAdapter
 import com.example.myapplication.util.InitDatabase
 import com.example.myapplication.viewmodel.MyViewModel
 import kotlinx.android.synthetic.main.activity_data_barang.ADB_fab_add_product
-import kotlinx.android.synthetic.main.activity_data_barang.ADB_rv_outlet_data_list
+import kotlinx.android.synthetic.main.activity_data_barang.ADB_rv_product_data_list
 
 // TODO : MAY CAUSE FATAL ERROR ganti jadi dialog two input
-class DataBarang : AppCompatActivity(), DialogOneInput.DialogListener {
+class DataBarang : AppCompatActivity(), DialogTwoInput.DialogListener {
 
     private lateinit var dataBarangAdapter: DataBarangAdapter
     private lateinit var viewModel: MyViewModel
@@ -24,8 +25,8 @@ class DataBarang : AppCompatActivity(), DialogOneInput.DialogListener {
 
         ADB_fab_add_product.setOnClickListener {
             // TODO : open dialog box -> add data
-            val dialogFragment = DialogOneInput()
-            dialogFragment.show(supportFragmentManager, "AddOutlet")
+            val dialogFragment = DialogTwoInput()
+            dialogFragment.show(supportFragmentManager, "AddProduct")
         }
 
         initViewModel()
@@ -37,10 +38,10 @@ class DataBarang : AppCompatActivity(), DialogOneInput.DialogListener {
     }
 
     private fun setUpRecView() {
-        ADB_rv_outlet_data_list.layoutManager = LinearLayoutManager(this)
+        ADB_rv_product_data_list.layoutManager = LinearLayoutManager(this)
 
         dataBarangAdapter = DataBarangAdapter(emptyList())
-        ADB_rv_outlet_data_list.adapter = dataBarangAdapter
+        ADB_rv_product_data_list.adapter = dataBarangAdapter
 
         // get data from database
         viewModel.allGoods.observe(this) { dataList ->
@@ -48,9 +49,8 @@ class DataBarang : AppCompatActivity(), DialogOneInput.DialogListener {
         }
     }
 
-    override fun onDialogResult(value: String) {
-        // Handle the value received from the DialogFragment
-        // Perform any necessary actions or update UI
-        Toast.makeText(this, value, Toast.LENGTH_SHORT).show()
+    override fun onDialogResult(namaProduk: String, hargaProduk : Double) {
+        viewModel.insertGoods(Goods(0, namaProduk, hargaProduk))
+        Toast.makeText(this, "$namaProduk berhasil ditambahkan", Toast.LENGTH_SHORT).show()
     }
 }

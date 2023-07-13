@@ -6,7 +6,7 @@
     android:padding="20dp">
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/DOI_til_1"
+        android:id="@+id/DTI_til_product_name_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Masukkan Nama Barang"
@@ -14,14 +14,14 @@
 
         <!--this is the actual edit text which takes the input-->
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/DOI_til_tiet_1"
+            android:id="@+id/DTI_til_tiet_product_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/DOI_til_2"
+        android:id="@+id/DTI_til_product_price_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Masukkan Harga Barang"
@@ -29,32 +29,11 @@
 
         <!--this is the actual edit text which takes the input-->
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/DOI_til_tiet_2"
+            android:id="@+id/DTI_til_tiet_product_price"
+            android:inputType="numberDecimal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
     </com.google.android.material.textfield.TextInputLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp">
-
-        <Button
-            android:id="@+id/DSN_btn_cancle"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Cancle"
-            android:layout_marginRight="5dp"/>
-
-        <Button
-            android:id="@+id/DSN_btn_submit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="submit"
-            android:layout_marginLeft="5dp"/>
-    </LinearLayout>
 
 </LinearLayout>
