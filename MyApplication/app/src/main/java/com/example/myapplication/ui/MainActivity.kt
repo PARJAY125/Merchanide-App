@@ -1,12 +1,9 @@
 package com.example.myapplication.ui
 
 import android.Manifest
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.location.Location
-import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Bundle
 import android.widget.Toast
@@ -85,8 +82,10 @@ class MainActivity : AppCompatActivity(), DialogOneInput.DialogListener {
         }
     }
 
-    override fun onDialogResult(newMDName: String) {
-        Toast.makeText(this, "nama anda $newMDName", Toast.LENGTH_SHORT).show()
-        AM_tv_md_name.text = newMDName
+    override fun onDialogResult(value: String) {
+        Toast.makeText(this, "nama anda $value", Toast.LENGTH_SHORT).show()
+        AM_tv_md_name.text = value
     }
+
+    override fun onEditDialogResult(outlet: Outlet) {}
 }

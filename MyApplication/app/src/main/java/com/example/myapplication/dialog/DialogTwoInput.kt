@@ -28,8 +28,8 @@ class DialogTwoInput() : DialogFragment() {
         val inputedNamaBarangTiet = dialogView.findViewById<TextInputEditText>(R.id.DTI_til_tiet_product_name)
         val inputedHargaBarangTiet = dialogView.findViewById<TextInputEditText>(R.id.DTI_til_tiet_product_price)
 
-        var args = arguments
-        var goodsData = args?.getParcelable<Goods>("goodsData") // Get the Goods object from the Bundle
+        val args = arguments
+        val goodsData = args?.getParcelable<Goods>("goodsData") // Get the Goods object from the Bundle
         // populate if isEdit
         if (goodsData != null) {
             inputedNamaBarangTiet.text = Editable.Factory.getInstance().newEditable(goodsData.goodsName)

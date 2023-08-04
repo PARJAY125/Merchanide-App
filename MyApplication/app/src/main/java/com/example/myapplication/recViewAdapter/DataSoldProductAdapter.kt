@@ -1,5 +1,6 @@
 package com.example.myapplication.recViewAdapter
 
+import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -20,7 +21,7 @@ class DataSoldProductAdapter(private var dataList: List<Goods>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = dataList[position]
-//        holder.productSold.text = data.goodsPrice.toString()
+        holder.productSold.text = Editable.Factory.getInstance().newEditable(data.goodsPrice.toString())
         holder.productHint.hint = data.goodsName
     }
 

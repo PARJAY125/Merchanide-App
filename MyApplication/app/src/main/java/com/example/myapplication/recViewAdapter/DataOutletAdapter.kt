@@ -6,6 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
+import com.example.myapplication.database.Goods
 import com.example.myapplication.database.Outlet
 
 class DataOutletAdapter(private var dataList: List<Outlet>) :
@@ -32,5 +33,10 @@ class DataOutletAdapter(private var dataList: List<Outlet>) :
     fun setData(newDataList: List<Outlet>) {
         dataList = newDataList
         notifyDataSetChanged()
+    }
+
+    // Method to get the item at a specific position
+    fun getItemAtPosition(position: Int): Outlet {
+        return dataList[position]
     }
 }
