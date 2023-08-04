@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginTop="8dp"
@@ -11,29 +12,44 @@
         app:cardCornerRadius="8dp"
         android:backgroundTint="#aaa">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingTop="8dp"
             android:paddingBottom="8dp"
             android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/IDB_tv_nama_barang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="Nama Barang"
                 android:textSize="16dp"
-                android:text="Nama Barang"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
                 android:id="@+id/IDB_tv_harga_barang"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingTop="4dp"
+                android:text="Harga Barang"
                 android:textSize="12dp"
-                android:text="Harga Barang"/>
-        </LinearLayout>
+                app:layout_constraintStart_toStartOf="@+id/IDB_tv_nama_barang"
+                app:layout_constraintTop_toBottomOf="@+id/IDB_tv_nama_barang" />
+
+            <ImageView
+                android:id="@+id/IDB_iv_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="@drawable/ic_edit_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
 

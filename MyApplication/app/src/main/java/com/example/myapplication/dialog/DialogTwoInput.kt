@@ -3,15 +3,14 @@ package com.example.myapplication.dialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.myapplication.R
-import com.example.myapplication.util.InitDatabase
-import com.example.myapplication.viewmodel.MyViewModel
+import com.example.myapplication.database.Goods
 import com.google.android.material.textfield.TextInputEditText
-import com.google.android.material.textfield.TextInputLayout
 
-class DialogTwoInput : DialogFragment() {
+class DialogTwoInput() : DialogFragment() {
 
     private var listener: DialogListener? = null
 
@@ -26,12 +25,28 @@ class DialogTwoInput : DialogFragment() {
         val builder = AlertDialog.Builder(requireActivity())
         val inflater = requireActivity().layoutInflater
         val dialogView = inflater.inflate(R.layout.dialog_two_input, null)
+        val inputedNamaBarangTiet = dialogView.findViewById<TextInputEditText>(R.id.DTI_til_tiet_product_name)
+        val inputedHargaBarangTiet = dialogView.findViewById<TextInputEditText>(R.id.DTI_til_tiet_product_price)
+
+        var args = arguments
+        var goodsData = args?.getParcelable<Goods>("goodsData") // Get the Goods object from the Bundle
+        // populate if isEdit
+        if (goodsData != null) {
+            inputedNamaBarangTiet.text = Editable.Factory.getInstance().newEditable(goodsData.goodsName)
+            inputedHargaBarangTiet.text = Editable.Factory.getInstance().newEditable(goodsData.goodsPrice.toString())
+        }
 
         builder.setView(dialogView)
             .setPositiveButton("OK") { dialog, _ ->
-                val inputedNamaBarang = dialogView.findViewById<TextInputEditText>(R.id.DTI_til_tiet_product_name).text.toString()
-                val inputedHargaBarang = dialogView.findViewById<TextInputEditText>(R.id.DTI_til_tiet_product_price).text.toString().toDouble()
-                listener?.onDialogResult(inputedNamaBarang, inputedHargaBarang)
+                val inputedNamaBarang = inputedNamaBarangTiet.text.toString()
+                val inputedHargaBarang = inputedHargaBarangTiet.text.toString().toDouble()
+
+                if (goodsData == null) listener?.onDialogResult(inputedNamaBarang, inputedHargaBarang)
+                else {
+                    goodsData.goodsName = inputedNamaBarang
+                    goodsData.goodsPrice = inputedHargaBarang
+                    listener?.onDialogEditResult(goodsData)
+                }
                 dialog.dismiss()
             }
             .setNegativeButton("Cancel") { dialog, _ ->
@@ -43,5 +58,6 @@ class DialogTwoInput : DialogFragment() {
 
     interface DialogListener {
         fun onDialogResult(namaProduk: String, hargaProduk: Double)
+        fun onDialogEditResult(goods: Goods)
     }
 }

@@ -7,6 +7,8 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.database.Goods
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class DataSoldProductAdapter(private var dataList: List<Goods>) :
     RecyclerView.Adapter<DataSoldProductAdapter.MyViewHolder>() {
@@ -18,7 +20,8 @@ class DataSoldProductAdapter(private var dataList: List<Goods>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = dataList[position]
-        holder.productName.text = data.goodsName
+//        holder.productSold.text = data.goodsPrice.toString()
+        holder.productHint.hint = data.goodsName
     }
 
     override fun getItemCount(): Int {
@@ -26,7 +29,8 @@ class DataSoldProductAdapter(private var dataList: List<Goods>) :
     }
 
     inner class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productName: TextView = itemView.findViewById(R.id.IRGL_til_tiet_product_name)
+        val productSold: TextInputEditText = itemView.findViewById(R.id.IRGL_tiet_product_sold)
+        val productHint: TextInputLayout = itemView.findViewById(R.id.IRGL_til_product_name_hint)
     }
 
     fun setData(newDataList: List<Goods>) {

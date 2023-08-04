@@ -134,7 +134,7 @@ class ReportDetail : AppCompatActivity() {
 
         for (i in 0 until adapter.itemCount) {
             val viewHolder = RD_rv_selled_product.findViewHolderForAdapterPosition(i) as DataSoldProductAdapter.MyViewHolder
-            val editTextValue = viewHolder.itemView.findViewById<TextInputEditText>(R.id.IRGL_til_tiet_product_name)
+            val editTextValue = viewHolder.itemView.findViewById<TextInputEditText>(R.id.IRGL_tiet_product_sold)
             val value = editTextValue.text.toString().toInt()
 
             extractedValues.add(value)
