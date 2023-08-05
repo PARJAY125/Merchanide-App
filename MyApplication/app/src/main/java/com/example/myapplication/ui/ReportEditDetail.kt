@@ -38,7 +38,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-class ReportDetail : AppCompatActivity() {
+class ReportEditDetail : AppCompatActivity() {
 
     private lateinit var reportCreateProductSoldAdapter: ReportCreateProductSoldAdapter
     private lateinit var viewModel: MyViewModel
@@ -57,7 +57,7 @@ class ReportDetail : AppCompatActivity() {
     lateinit var selectedOutlet : String
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.report_detail)
+        setContentView(R.layout.activity_report_edit_detail)
 
         initDatabase()
         populateSpinner()
@@ -74,9 +74,6 @@ class ReportDetail : AppCompatActivity() {
             }
         }
 
-        // 2 yang berbeda aja
-        // ReportEditDetail
-        // TODO : checkIntentExtra()
         // TODO : recycler view integration
         setUpRecView()
     }
@@ -88,6 +85,10 @@ class ReportDetail : AppCompatActivity() {
 //    }
 
     private fun setUpRecView() {
+        // TODO : checkIntentExtra()
+        // TODO : GetReportData()
+        // TODO : newAdapter()
+
         RD_rv_selled_product.layoutManager = LinearLayoutManager(this)
 
         reportCreateProductSoldAdapter = ReportCreateProductSoldAdapter(emptyList())
@@ -130,9 +131,7 @@ class ReportDetail : AppCompatActivity() {
 
     // TODO : rubah
     private fun saveReportData() {
-        // TODO : check if merchandiser provide all the data needed else toast error
-
-
+        // TODO : recycler view retrive data
         val extractedValues = mutableListOf<Int>()
 
         val adapter = RD_rv_selled_product.adapter as ReportCreateProductSoldAdapter

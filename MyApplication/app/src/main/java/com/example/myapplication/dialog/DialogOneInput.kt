@@ -7,10 +7,7 @@ import android.text.Editable
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.example.myapplication.R
-import com.example.myapplication.database.Goods
 import com.example.myapplication.database.Outlet
-import com.example.myapplication.util.InitDatabase
-import com.example.myapplication.viewmodel.MyViewModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 

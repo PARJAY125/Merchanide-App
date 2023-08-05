@@ -30,6 +30,9 @@
         android:theme="@style/Theme.MyApplication"
         tools:targetApi="31">
         <activity
+            android:name=".ui.ReportEditDetail"
+            android:exported="false" />
+        <activity
             android:name=".ui.DataBarang"
             android:exported="false" />
         <activity

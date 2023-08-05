@@ -52,13 +52,13 @@
         <!-- TODO : FIX DESIGN -->
         <ImageView
             android:id="@+id/rd_iv_transport"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
-            android:background="@drawable/ic_baseline_add_24"
+            android:background="@drawable/ic_camera"
+            android:layout_gravity="center"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
-            android:layout_margin="4dp"/>
+            android:layout_marginTop="4dp"/>
 
         <TextView
             android:id="@+id/rd_tv_camera"
@@ -73,7 +73,7 @@
             android:id="@+id/rd_iv_pap_outlet"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/ic_baseline_add_24"
+            android:background="@drawable/ic_camera"
             android:scaleType="fitXY"
             android:adjustViewBounds="true"
             android:layout_margin="4dp"/>

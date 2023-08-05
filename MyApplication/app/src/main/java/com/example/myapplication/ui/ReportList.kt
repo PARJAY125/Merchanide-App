@@ -12,6 +12,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
+import com.example.myapplication.GlobalVariable
 import com.example.myapplication.R
 import com.example.myapplication.database.Report
 import com.example.myapplication.util.InitDatabase
@@ -101,7 +102,8 @@ class ReportList : AppCompatActivity() {
                     // TODO (optional) : procedure should -> report outlet name -> report id
                     // i dont like this but this is work
                     // Do something with the report data, such as show it in a details view
-                    val intent = Intent(this, ReportDetail::class.java)
+                    val intent = Intent(this, ReportEditDetail::class.java)
+                    // TODO : kasik aja langsung reportnya
                     intent.putExtra("reportId", report.id)
                     startActivity(intent)
                 }
@@ -114,13 +116,14 @@ class ReportList : AppCompatActivity() {
 
     private fun exportToCsv() {
         // Create CSV file after populating the rows list
-        val name = "Parjay"
-        val fileName = "${name}_${SimpleDateFormat("yyyy_MM_dd", Locale.getDefault()).format(Date())}"
+        val globalVariable = applicationContext as GlobalVariable
+        val fileName = "${globalVariable.namaMerchandiser}_${SimpleDateFormat("yyyy_MM_dd", Locale.getDefault()).format(Date())}"
         val dir = File(Environment.getExternalStorageDirectory(), "MD_${fileName}")
         if (!dir.exists()) dir.mkdirs()
         val file = File(dir, "Laporan_${fileName}.csv")
 
-        val header = arrayOf("id", "outlet_name", "transport_distance", "image_before", "image_after", "is_stock_full", "list_goods_ids", "start_time", "end_time")
+        // TODO : List Goods fleksibel dipakein for loop
+        val header = arrayOf("id", "Nama Outlet", "Foto Odometer", "Foto di Outlet", "list_goods_ids", "start_time", "end_time")
 
         val rows = mutableListOf<Array<String?>>()
         viewModel.allReports.observe(this) { reports ->
@@ -131,7 +134,7 @@ class ReportList : AppCompatActivity() {
                     report.outletName,
                     report.transportDistance,
                     report.imagePapOutlet,
-                    report.listGoodsSold.joinToString(","),
+                    report.listGoodsSold.joinToString(","),         // TODO : Ini juga pakein for loop
                     report.startTime,
                     report.endTime
                 )

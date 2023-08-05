@@ -1,18 +1,16 @@
 package com.example.myapplication.recViewAdapter
 
-import android.text.Editable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.database.Goods
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class DataSoldProductAdapter(private var dataList: List<Goods>) :
-    RecyclerView.Adapter<DataSoldProductAdapter.MyViewHolder>() {
+class ReportCreateProductSoldAdapter(private var dataList: List<Goods>) :
+    RecyclerView.Adapter<ReportCreateProductSoldAdapter.MyViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_report_goods_list, parent, false)
@@ -21,7 +19,7 @@ class DataSoldProductAdapter(private var dataList: List<Goods>) :
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = dataList[position]
-        holder.productSold.text = Editable.Factory.getInstance().newEditable(data.goodsPrice.toString())
+//        holder.productSold.text = Editable.Factory.getInstance().newEditable(data.goodsPrice.toString())
         holder.productHint.hint = data.goodsName
     }
 
