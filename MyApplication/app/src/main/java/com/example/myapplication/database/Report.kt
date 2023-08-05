@@ -4,6 +4,7 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import androidx.room.TypeConverters
+import java.io.Serializable
 
 @Entity(tableName = "reports")
 @TypeConverters(Converters::class)
@@ -15,7 +16,7 @@ data class Report(
 
     // image String URI
     @ColumnInfo(name = "transport_distance")
-    var transportDistance: String?,
+    var imageTransportDistance: String?,
     @ColumnInfo(name = "image_pap_outlet")
     var imagePapOutlet: String?,
 
@@ -26,4 +27,4 @@ data class Report(
     val startTime: String,
     @ColumnInfo(name = "end_time")
     val endTime: String
-)
+) : Serializable

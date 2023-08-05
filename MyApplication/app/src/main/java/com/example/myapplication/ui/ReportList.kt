@@ -104,7 +104,7 @@ class ReportList : AppCompatActivity() {
                     // Do something with the report data, such as show it in a details view
                     val intent = Intent(this, ReportEditDetail::class.java)
                     // TODO : kasik aja langsung reportnya
-                    intent.putExtra("reportId", report.id)
+                    intent.putExtra("report", report)
                     startActivity(intent)
                 }
 
@@ -132,7 +132,7 @@ class ReportList : AppCompatActivity() {
                 val row = arrayOf(
                     report.id.toString(),
                     report.outletName,
-                    report.transportDistance,
+                    report.imageTransportDistance,
                     report.imagePapOutlet,
                     report.listGoodsSold.joinToString(","),         // TODO : Ini juga pakein for loop
                     report.startTime,

@@ -38,6 +38,10 @@ class MyViewModel(private val repository: MyRepository) : ViewModel() {
         repository.updateOutlet(outlet)
     }
 
+    fun updateReport(report: Report) = viewModelScope.launch {
+        repository.updateReport(report)
+    }
+
     // Functions to delete instances of each data class
     fun deleteOutlet(outlet: Outlet) = viewModelScope.launch {
         repository.deleteOutlet(outlet)

@@ -63,6 +63,12 @@ class MyRepository(private val outletDao: OutletDao, private val goodsDao: Goods
         }
     }
 
+    suspend fun updateReport(report: Report) {
+        withContext(Dispatchers.IO) {
+            reportDao.update(report)
+        }
+    }
+
     // Delete a report
     suspend fun deleteReport(report: Report) {
         withContext(Dispatchers.IO) {

@@ -70,7 +70,7 @@ class DemoKonversi : AppCompatActivity() {
                 val row = arrayOf(
                     report.id.toString(),
                     report.outletName,
-                    report.transportDistance,
+                    report.imageTransportDistance,
                     report.imagePapOutlet,
                     report.listGoodsSold.joinToString(","),
                     report.startTime,

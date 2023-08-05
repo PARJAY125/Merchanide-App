@@ -32,20 +32,18 @@ class MainActivity : AppCompatActivity(), DialogOneInput.DialogListener {
 
         val globalVariable = applicationContext as GlobalVariable
         if (globalVariable.namaMerchandiser != "") AM_tv_md_name.text = globalVariable.namaMerchandiser
-        else AM_tv_md_name.text = "Nama ${globalVariable.namaMerchandiser} Anda Belum Terdaftar"
+        else AM_tv_md_name.text = "Nama Anda Belum Terdaftar"
 
         AM_btn_rename_merchandise.setOnClickListener {
             val dialogFragment = DialogOneInput()
             dialogFragment.show(supportFragmentManager, "ChangeMDName")
         }
 
-        // warning if belum set nama ato barang ato outlet
-        AM_btn_to_am2.setOnClickListener {
-            startActivity(Intent(this, ReportDetail::class.java))
-        }
-
+        // TODO : warning if belum set nama ato barang ato outlet
         AM_btn_to_am3.setOnClickListener {
-            startActivity(Intent(this, ReportList::class.java))
+            if (globalVariable.namaMerchandiser == "")
+                Toast.makeText(this, "Masukkan Nama Terlebih Dahulu", Toast.LENGTH_SHORT).show()
+            else startActivity(Intent(this, ReportList::class.java))
         }
 
         AM_btn_to_data_barang.setOnClickListener {

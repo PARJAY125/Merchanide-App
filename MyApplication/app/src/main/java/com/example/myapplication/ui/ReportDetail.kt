@@ -42,7 +42,6 @@ class ReportDetail : AppCompatActivity() {
 
     private lateinit var reportCreateProductSoldAdapter: ReportCreateProductSoldAdapter
     private lateinit var viewModel: MyViewModel
-    private var reportId : Int? = null
 
     private val startTime = TimeTools.getCurrentTime()
 
@@ -73,19 +72,8 @@ class ReportDetail : AppCompatActivity() {
                 // Handle the case where nothing is selected, if needed
             }
         }
-
-        // 2 yang berbeda aja
-        // ReportEditDetail
-        // TODO : checkIntentExtra()
-        // TODO : recycler view integration
         setUpRecView()
     }
-
-    // TODO : solve this intent extra
-//    private fun checkIntentExtra() {
-//        reportId = intent.getIntExtra("reportId", -1)
-//        if(reportId != -1 ) rd_tiet_outlet_name.hint = "outlet id : $reportId"
-//    }
 
     private fun setUpRecView() {
         RD_rv_selled_product.layoutManager = LinearLayoutManager(this)
@@ -128,37 +116,36 @@ class ReportDetail : AppCompatActivity() {
         }
     }
 
-    // TODO : rubah
+    // TODO : check if merchandiser provide all the data needed else toast error
     private fun saveReportData() {
-        // TODO : check if merchandiser provide all the data needed else toast error
-
-
         val extractedValues = mutableListOf<Int>()
-
         val adapter = RD_rv_selled_product.adapter as ReportCreateProductSoldAdapter
 
-        for (i in 0 until adapter.itemCount) {
-            val viewHolder = RD_rv_selled_product.findViewHolderForAdapterPosition(i) as ReportCreateProductSoldAdapter.MyViewHolder
-            val editTextValue = viewHolder.itemView.findViewById<TextInputEditText>(R.id.IRGL_tiet_product_sold)
-            val value = editTextValue.text.toString().toIntOrNull() ?: 0
+        try {
+            for (i in 0 until adapter.itemCount) {
+                val viewHolder = RD_rv_selled_product.findViewHolderForAdapterPosition(i) as ReportCreateProductSoldAdapter.MyViewHolder
+                val editTextValue = viewHolder.itemView.findViewById<TextInputEditText>(R.id.IRGL_tiet_product_sold)
+                val value = editTextValue.text.toString().toIntOrNull() ?: 0
 
-            extractedValues.add(value)
+                extractedValues.add(value)
+            }
+
+            val report = Report(
+                0,
+                selectedOutlet,
+                imageTransport,
+                imagePapOutlet,
+                extractedValues,
+                startTime,
+                TimeTools.getCurrentTime()
+            )
+
+            viewModel.insertReport(report)
+            finish()
+        } catch (e: Exception) {
+            // Handle the exception
+            Toast.makeText(this, "Lengkapi semua data yang dibutuhkan", Toast.LENGTH_SHORT).show()
         }
-
-        // TODO : benerin
-        val report = Report(
-            0,
-            selectedOutlet,
-            imageTransport,
-            imagePapOutlet,
-            extractedValues,          // TODO : datanya dari recycler view
-            startTime,
-            TimeTools.getCurrentTime()
-        )
-
-        // Call the insertReport function in the ViewModel to insert the new report
-        viewModel.insertReport(report)
-        finish()
     }
 
     private fun takeImage() {
@@ -202,14 +189,16 @@ class ReportDetail : AppCompatActivity() {
 //            Toast.makeText(this, "Directory created: $isCreated", Toast.LENGTH_SHORT).show()
         }
 
+        val uniqueNaming = GenerateRandomString.generateRandomString(7)
+
         when (imageMarker) {
-            1 -> imagePapOutlet = dir.toString()
-            else -> imageTransport = dir.toString()
+            1 -> imagePapOutlet = "$fileName $uniqueNaming"
+            else -> imageTransport = fileName
         }
 
         try {
 //            Toast.makeText(this, "sucess", Toast.LENGTH_SHORT).show()
-            return File(dir, "$fileName ${GenerateRandomString.generateRandomString(7)}.jpg")
+            return File(dir, "$fileName ${uniqueNaming}.jpg")
         } catch (e: Exception) {
             Toast.makeText(this, "Error creating file", Toast.LENGTH_SHORT).show()
             throw Exception()
