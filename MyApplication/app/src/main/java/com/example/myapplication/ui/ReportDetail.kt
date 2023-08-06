@@ -144,7 +144,8 @@ class ReportDetail : AppCompatActivity() {
             finish()
         } catch (e: Exception) {
             // Handle the exception
-            Toast.makeText(this, "Lengkapi semua data yang dibutuhkan", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "$e", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Lengkapi semua data yang dibutuhkan", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -193,7 +194,7 @@ class ReportDetail : AppCompatActivity() {
 
         when (imageMarker) {
             1 -> imagePapOutlet = "$fileName $uniqueNaming"
-            else -> imageTransport = fileName
+            else -> imageTransport = "$fileName $uniqueNaming"
         }
 
         try {

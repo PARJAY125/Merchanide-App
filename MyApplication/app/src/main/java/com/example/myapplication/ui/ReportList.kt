@@ -14,7 +14,6 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.setPadding
 import com.example.myapplication.GlobalVariable
 import com.example.myapplication.R
-import com.example.myapplication.database.Report
 import com.example.myapplication.util.InitDatabase
 import com.example.myapplication.viewmodel.MyViewModel
 import com.opencsv.CSVWriter
@@ -25,16 +24,19 @@ import kotlinx.android.synthetic.main.report_list.rl_tv_refresh
 import java.io.File
 import java.io.FileWriter
 import java.text.SimpleDateFormat
+import java.time.LocalTime
+import java.time.format.DateTimeFormatter
+import java.time.temporal.ChronoUnit
 import java.util.Date
 import java.util.Locale
 
 class ReportList : AppCompatActivity() {
-
     private lateinit var viewModel: MyViewModel
-    private lateinit var reportList: List<Report>
 
     companion object val REQUEST_CODE_WRITE_EXTERNAL_STORAGE_PERMISSION = 1
 
+    private var goodsPriceList : MutableList<Double> = mutableListOf()
+    private var headerMiddle : MutableList<String> = mutableListOf()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.report_list)
@@ -42,11 +44,18 @@ class ReportList : AppCompatActivity() {
         initViewModel()
         setTable()
         onClickFunction()
-
     }
 
     private fun initViewModel() {
         viewModel = InitDatabase.initDatabase(this)
+
+        viewModel.allGoods.observe(this) { goods ->
+            headerMiddle.clear()
+            for (good in goods) {
+                headerMiddle.add("${good.goodsName} @${good.goodsPrice}")
+                goodsPriceList.add(good.goodsPrice)
+            }
+        }
     }
 
     private fun onClickFunction() {
@@ -99,11 +108,7 @@ class ReportList : AppCompatActivity() {
 
                 // handle row click event here
                 tableRow.setOnClickListener {
-                    // TODO (optional) : procedure should -> report outlet name -> report id
-                    // i dont like this but this is work
-                    // Do something with the report data, such as show it in a details view
                     val intent = Intent(this, ReportEditDetail::class.java)
-                    // TODO : kasik aja langsung reportnya
                     intent.putExtra("report", report)
                     startActivity(intent)
                 }
@@ -115,30 +120,52 @@ class ReportList : AppCompatActivity() {
     }
 
     private fun exportToCsv() {
-        // Create CSV file after populating the rows list
         val globalVariable = applicationContext as GlobalVariable
         val fileName = "${globalVariable.namaMerchandiser}_${SimpleDateFormat("yyyy_MM_dd", Locale.getDefault()).format(Date())}"
         val dir = File(Environment.getExternalStorageDirectory(), "MD_${fileName}")
         if (!dir.exists()) dir.mkdirs()
         val file = File(dir, "Laporan_${fileName}.csv")
 
-        // TODO : List Goods fleksibel dipakein for loop
-        val header = arrayOf("id", "Nama Outlet", "Foto Odometer", "Foto di Outlet", "list_goods_ids", "start_time", "end_time")
+        // List Report
+        val headerStart = arrayOf("id", "Nama Outlet", "Foto Odometer", "Foto di Outlet")
 
+        val headerEnd = arrayOf("start_time", "end_time", "total waktu", "total keuntungan")
+        val header = headerStart + headerMiddle.toTypedArray() + headerEnd
+
+        val formatter = DateTimeFormatter.ofPattern("HH:mm")
         val rows = mutableListOf<Array<String?>>()
         viewModel.allReports.observe(this) { reports ->
             rows.clear() // Clear previous data
             for (report in reports) {
-                val row = arrayOf(
+                // TODO : Ini juga pakein for loop
+                val rowStart = arrayOf(
                     report.id.toString(),
                     report.outletName,
                     report.imageTransportDistance,
-                    report.imagePapOutlet,
-                    report.listGoodsSold.joinToString(","),         // TODO : Ini juga pakein for loop
-                    report.startTime,
-                    report.endTime
+                    report.imagePapOutlet
                 )
-                rows.add(row)
+                // rows += rowStart
+
+                var totalEarnings = 0.0
+                val rowMiddle = mutableListOf<String>()
+                for (i in report.listGoodsSold.indices) {
+                    totalEarnings += goodsPriceList[i] * report.listGoodsSold[i]
+                    rowMiddle.add(report.listGoodsSold[i].toString())
+                }
+                // rows += rowMiddle.toTypedArray()
+
+                val startTime = LocalTime.parse(report.startTime, formatter)
+                val endTime = LocalTime.parse(report.endTime, formatter)
+                val rowEnd : Array<String?> = arrayOf(
+                    // report.listGoodsSold.joinToString(","),         // TODO : Ini juga pakein for loop
+                    report.startTime,
+                    report.endTime,
+                    startTime.until(endTime, ChronoUnit.MINUTES).toString(),// total waktu
+                    totalEarnings.toString() // total keuntungan
+                )
+                // rows += rowEnd
+                val rowCombined = rowStart + rowMiddle.toTypedArray() + rowEnd
+                rows.add(rowCombined)
             }
 
             try {

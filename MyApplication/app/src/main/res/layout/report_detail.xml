@@ -6,7 +6,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical"
         android:padding="20dp">
 
@@ -26,13 +26,13 @@
             <Spinner
                 android:id="@+id/rd_spn_outlet_name"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="48dp"
                 android:layout_weight="1"
                 />
 
             <ImageView
                 android:id="@+id/rd_iv_add_outlet"
-                android:layout_width="32dp"
+                android:layout_width="48dp"
                 android:layout_height="match_parent"
                 android:layout_gravity="center"
                 android:background="@drawable/ic_baseline_add_24"
@@ -103,7 +103,7 @@
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/RD_rv_selled_product"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             tools:listitem="@layout/item_report_goods_list"
             android:layout_marginTop="8dp"/>
 
