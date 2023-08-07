@@ -78,7 +78,7 @@ class ReportDetail : AppCompatActivity() {
     private fun setUpRecView() {
         RD_rv_selled_product.layoutManager = LinearLayoutManager(this)
 
-        reportCreateProductSoldAdapter = ReportCreateProductSoldAdapter(emptyList())
+        reportCreateProductSoldAdapter = ReportCreateProductSoldAdapter(emptyList(), RD_rv_selled_product)
         RD_rv_selled_product.adapter = reportCreateProductSoldAdapter
 
         // get data from database
@@ -119,15 +119,13 @@ class ReportDetail : AppCompatActivity() {
     // TODO : check if merchandiser provide all the data needed else toast error
     private fun saveReportData() {
         val extractedValues = mutableListOf<Int>()
-        val adapter = RD_rv_selled_product.adapter as ReportCreateProductSoldAdapter
+
+        val textInputEditTexts = reportCreateProductSoldAdapter.extractTextInputEditTexts()
 
         try {
-            for (i in 0 until adapter.itemCount) {
-                val viewHolder = RD_rv_selled_product.findViewHolderForAdapterPosition(i) as ReportCreateProductSoldAdapter.MyViewHolder
-                val editTextValue = viewHolder.itemView.findViewById<TextInputEditText>(R.id.IRGL_tiet_product_sold)
-                val value = editTextValue.text.toString().toIntOrNull() ?: 0
-
-                extractedValues.add(value)
+            for (textInputEditText in textInputEditTexts) {
+                val text = textInputEditText.text.toString().toInt()
+                extractedValues.add(text)
             }
 
             val report = Report(

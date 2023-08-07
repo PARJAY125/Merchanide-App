@@ -1,5 +1,7 @@
 package com.example.myapplication.recViewAdapter
 
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,18 +11,27 @@ import com.example.myapplication.database.Goods
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
-class ReportCreateProductSoldAdapter(private var dataList: List<Goods>) :
-    RecyclerView.Adapter<ReportCreateProductSoldAdapter.MyViewHolder>() {
+class ReportCreateProductSoldAdapter(
+    private var dataList: List<Goods>
+    ,private val recyclerView: RecyclerView
+    ) : RecyclerView.Adapter<ReportCreateProductSoldAdapter.MyViewHolder>() {
+
+    private val textInputEditTextList = mutableListOf<TextInputEditText>()
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
         val itemView = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_report_goods_list, parent, false)
         return MyViewHolder(itemView)
     }
 
+    val ZERO = 0
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         val data = dataList[position]
-//        holder.productSold.text = Editable.Factory.getInstance().newEditable(data.goodsPrice.toString())
+        holder.productSold.text = Editable.Factory.getInstance().newEditable(ZERO.toString())
         holder.productHint.hint = data.goodsName
+
+        // Add TextInputEditText to the list
+        textInputEditTextList.add(holder.productSold)
     }
 
     override fun getItemCount(): Int {
@@ -35,5 +46,9 @@ class ReportCreateProductSoldAdapter(private var dataList: List<Goods>) :
     fun setData(newDataList: List<Goods>) {
         dataList = newDataList
         notifyDataSetChanged()
+    }
+
+    fun extractTextInputEditTexts(): List<TextInputEditText> {
+        return textInputEditTextList
     }
 }
